@@ -65,8 +65,6 @@ class DepthAiPeopleCounter:
     def _send_count(self, counts: list[int]) -> bool:
         avg_count = math.ceil(np.average(counts))
         print(f"{datetime.now()}: {avg_count} count - {counts}")
-        if not self.cfg.push_gateway_addr:
-            return True
         try:
             send_count(avg_count, self.cfg)
             return True
