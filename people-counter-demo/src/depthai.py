@@ -23,14 +23,14 @@ labelMap = ["background", "person"]
 
 
 @dataclass
-class DepthAiConfig:
+class PeopleCounterConfig:
     push_gateway_addr: str = '',
     push_period_seconds: int = 1
     debug: bool = False
 
 
-class DepthAi:
-    cfg: DepthAiConfig
+class DepthAiPeopleCounter:
+    cfg: PeopleCounterConfig
     pm: PipelineManager
     pv: PreviewManager
     nm: NNetManager
@@ -38,7 +38,7 @@ class DepthAi:
     _q: SimpleQueue
     _should_quit: bool = False
 
-    def __init__(self, cfg: DepthAiConfig):
+    def __init__(self, cfg: PeopleCounterConfig):
         self.cfg = cfg
         self.pm = PipelineManager()
         self.pm.createColorCam(previewSize=size, xout=True)
