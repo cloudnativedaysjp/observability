@@ -9,6 +9,7 @@ import depthai as dai
 from depthai_sdk import PipelineManager, NNetManager, PreviewManager
 import numpy as np
 
+from src.config import PeopleCounterConfig
 from src.prometheus import send_count
 from src.queue import SimpleQueue
 
@@ -19,14 +20,6 @@ nnSource = "color"
 
 # Labels
 labelMap = ["background", "person"]
-
-
-
-@dataclass
-class PeopleCounterConfig:
-    push_gateway_addr: str = '',
-    push_period_seconds: int = 1
-    debug: bool = False
 
 
 class DepthAiPeopleCounter:
@@ -75,7 +68,7 @@ class DepthAiPeopleCounter:
         if not self.cfg.push_gateway_addr:
             return True
         try:
-            send_count(avg_count, self.cfg.push_gateway_addr)
+            send_count(avg_count, self.cfg)
             return True
         except RuntimeError as e:
             print(e)

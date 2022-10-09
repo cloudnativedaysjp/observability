@@ -1,10 +1,14 @@
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
+from src.config import PeopleCounterConfig
 
-def send_count(count: int, addr: str):
+PROM_DEPTHAI_JOB = 'depthai'
+
+
+def send_count(count: int, cfg: PeopleCounterConfig):
     registry = CollectorRegistry()
-    g = Gauge('people_count', 'People count', registry=registry)
-    g.set(count)
-    push_to_gateway(addr, job='depthai', registry=registry)
+    g = Gauge('people_count', 'People count', registry=registry, labelnames=['node_name'])
+    g.labels(cfg.node_name).set(count)
+    push_to_gateway(cfg.push_gateway_addr, job=PROM_DEPTHAI_JOB, registry=registry)
 
 
