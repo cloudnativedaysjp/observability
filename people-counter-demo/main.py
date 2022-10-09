@@ -13,16 +13,12 @@ class Command:
             push_gateway_addr: str = '',
             debug: bool = False
     ):
-        cfg = DepthAiConfig(push_gateway_addr=push_gateway_addr, debug=debug)
+        cfg = DepthAiConfig(
+            push_gateway_addr=push_gateway_addr,
+            debug=debug
+        )
         d = DepthAi(cfg)
-        d.run(debug)
-
-
-def send_count(count: int, addr: str):
-    registry = CollectorRegistry()
-    g = Gauge('people_count', 'People count', registry=registry)
-    g.set(count)
-    push_to_gateway(addr, job='depthai', registry=registry)
+        d.run()
 
 
 if __name__ == "__main__":
