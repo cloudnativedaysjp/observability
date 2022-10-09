@@ -30,7 +30,6 @@ class SimpleQueue:
         delta = now - self._prev_tick
         if delta.seconds < self.period_seconds:
             return
-        print(f"{now} - {self._q}")
         ok = fn(self._q)
 
         if ok or delta.seconds > self._force_reset_period:

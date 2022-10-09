@@ -11,10 +11,12 @@ class Command:
     def people_count(
             self,
             push_gateway_addr: str = '',
+            push_period_seconds: int = 1,
             debug: bool = False
     ):
         cfg = DepthAiConfig(
             push_gateway_addr=push_gateway_addr,
+            push_period_seconds=push_period_seconds,
             debug=debug
         )
         d = DepthAi(cfg)
