@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import blobconverter
 import cv2
 import depthai as dai
@@ -13,12 +15,23 @@ labelMap = ["background", "person"]
 nnSource = "color"
 
 
+@dataclass
+class DepthAiConfig:
+    push_gateway_addr: str = '',
+    debug: bool = False
+
+
 class DepthAi:
+    cfg: DepthAiConfig
+
     pm: PipelineManager
     pv: PreviewManager
     nm: NNetManager
 
-    def __init__(self):
+
+
+    def __init__(self, cfg: DepthAiConfig):
+        self.cfg = cfg
         self.pm = PipelineManager()
         self.pm.createColorCam(previewSize=size, xout=True)
         self.pv = PreviewManager(display=["color"], nnSource=nnSource)
@@ -34,6 +47,7 @@ class DepthAi:
             self.pv.createQueues(device)
 
             while True:
+                self.pv.prepareFrames(blocking=True)
                 nn_data = self.nm.decode(self.nm.outputQueue.get())
                 print(len(nn_data))
                 if debug:
@@ -42,7 +56,6 @@ class DepthAi:
                         break
 
     def _show_frame(self, nn_data):
-        self.pv.prepareFrames(blocking=True)
         frame = self.pv.get("color")
         self.nm.draw(frame, nn_data)
         cv2.putText(frame, f"People count: {len(nn_data)}", (5, 30), cv2.FONT_HERSHEY_TRIPLEX, 1,

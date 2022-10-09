@@ -3,7 +3,8 @@ import fire
 
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
-from src.depthai import DepthAi
+from src.depthai import DepthAi, DepthAiConfig
+
 
 class Command:
 
@@ -12,7 +13,8 @@ class Command:
             push_gateway_addr: str = '',
             debug: bool = False
     ):
-        d = DepthAi()
+        cfg = DepthAiConfig(push_gateway_addr=push_gateway_addr, debug=debug)
+        d = DepthAi(cfg)
         d.run(debug)
 
 
