@@ -28,3 +28,7 @@ Help
 ```
 ./main.py people_count -h
 ```
+
+## License
+
+MIT
