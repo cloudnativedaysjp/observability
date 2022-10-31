@@ -25,10 +25,10 @@ For the mh-z19 sensor, [a python module](https://pypi.org/project/mh-z19/) is av
 
   - Remote
 
-    - Fix line 7 of main.py
+    - Set Environment
 
-    ```python
-    PUSHGATEWAY_ADDRESS = "localhost:9091"
+    ```bash
+    export PUSHGATEWAY_ADDRESS = "localhost:9091"
     ```
 
 ### Installation
