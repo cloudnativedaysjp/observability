@@ -9,13 +9,12 @@ PUSHGATEWAY_ADDRESS = os.getenv("PUSHGATEWAY_ADDRESS", "localhost:9091")
 
 
 def main():
-    for i in range(0, 100, 1):
     i = 0
     while True:
         co2_conce = get_co2_conce()
         send_co2_conce(co2_conce)
         print(f"{i}分経過: {co2_conce}")
-        ++i
+        i += 1
         time.sleep(60)
 
 
