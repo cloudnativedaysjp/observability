@@ -69,5 +69,5 @@ sudo systemctl restart co2-sensor
 Run
 
 ```
-python main.py
+sudo python main.py
 ```

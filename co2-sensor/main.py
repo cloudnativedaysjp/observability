@@ -1,28 +1,20 @@
-import subprocess
-import re
 import time
 import os
+import mh_z19
 
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
 PUSHGATEWAY_ADDRESS = os.getenv("PUSHGATEWAY_ADDRESS", "localhost:9091")
+INTERVAL_SEC        = int(os.getenv("INTERVAL_SEC", "10"))
 
 
 def main():
-    i = 0
+    print(f"PUSHGATEWAY_ADDRESS = {PUSHGATEWAY_ADDRESS}")
+    print(f"INTERVAL_SEC        = {INTERVAL_SEC} second")
     while True:
-        co2_conce = get_co2_conce()
+        co2_conce = mh_z19.read_all()["co2"]
         send_co2_conce(co2_conce)
-        print(f"{i}分経過: {co2_conce}")
-        i += 1
-        time.sleep(60)
-
-
-def get_co2_conce() -> int:
-    out = subprocess.check_output(["sudo", "python3", "-m", "mh_z19"]).decode("utf-8")
-    cmd_out = re.match(r"{\"co2\": (?P<conc>\d+)}", out)
-    co2_conce = int(cmd_out.group("conc"))
-    return co2_conce
+        time.sleep(INTERVAL_SEC)
 
 
 def send_co2_conce(co2_conce: int):
