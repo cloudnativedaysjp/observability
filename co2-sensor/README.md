@@ -39,6 +39,31 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
+Instal systemd
+```
+# Edit installation location and other information
+vi co2-sensor.service
+
+sudo cp co2-sensor.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable co2-sensor
+sudo systemctl start co2-sensor
+```
+
+Edit environment variables for systemd
+```
+sudo mkdir -p /etc/systemd/system/co2-sensor.service.d
+
+# copy conf for dev
+sudo cp -r override.dev.conf /etc/systemd/system/co2-sensor.service.d/override.conf
+
+# Edit directly conf
+# sudo systemctl edit co2-sensor
+
+sudo systemctl daemon-reload
+sudo systemctl restart co2-sensor
+```
+
 ### Usage
 
 Run

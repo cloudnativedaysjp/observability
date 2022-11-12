@@ -1,0 +1,14 @@
+[Unit]
+Description=Measure co2 and upload data
+After=network.target
+
+[Service]
+Environment=PUSHGATEWAY_ADDRESS=https://pushgateway.dev.cloudnativedays.jp
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=/home/observability/observability/co2-sensor
+ExecStart=/home/observability/observability/co2-sensor/venv/bin/python -u /home/observability/observability/co2-sensor/main.py
+Restart=on-failure
+StartLimitBurst=0
+
+[Install]
+WantedBy=default.target
