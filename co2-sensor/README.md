@@ -34,6 +34,8 @@ For the mh-z19 sensor, [a python module](https://pypi.org/project/mh-z19/) is av
 ### Installation
 
 ```
+python -m venv venv
+. venv/bin/activate
 pip install -r requirements.txt
 ```
 
