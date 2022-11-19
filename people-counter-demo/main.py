@@ -3,6 +3,7 @@ import fire
 
 from src.config import PeopleCounterConfig
 from src.depthai import DepthAiPeopleCounter
+from src.prometheus import MetricExporter
 
 
 class Command:
@@ -30,7 +31,15 @@ class Command:
             debug=debug
         )
         people_counter = DepthAiPeopleCounter(cfg)
-        people_counter.run()
+
+        exporter = MetricExporter(cfg)
+        exporter.start()
+
+        try:
+            people_counter.run()
+        except Exception as e:
+            print(e)
+            exporter.kill()
 
 
 if __name__ == "__main__":

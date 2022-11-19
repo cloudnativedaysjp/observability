@@ -9,7 +9,7 @@ import depthai as dai
 from depthai_sdk import PipelineManager, NNetManager, PreviewManager
 import numpy as np
 
-from src.config import PeopleCounterConfig
+from src.config import PeopleCounterConfig, METRIC_FILE
 from src.prometheus import send_count
 from src.queue import SimpleQueue
 
@@ -60,13 +60,15 @@ class DepthAiPeopleCounter:
                 if self.cfg.debug:
                     self._show_frame(nn_data)
 
-                self._q.run_after_period(self._send_count)
+                self._q.run_after_period(self._write_file)
 
-    def _send_count(self, counts: list[int]) -> bool:
+    def _write_file(self, counts: list[int]) -> bool:
         avg_count = math.ceil(np.average(counts))
         print(f"{datetime.now()}: {avg_count} count - {counts}")
         try:
-            send_count(avg_count, self.cfg)
+            with open(METRIC_FILE, 'w') as f:
+                f.write(f"{avg_count}")
+            # send_count(avg_count, self.cfg)
             return True
         except RuntimeError as e:
             print(e)
