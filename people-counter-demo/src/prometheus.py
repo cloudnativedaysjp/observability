@@ -31,10 +31,10 @@ class MetricExporter(Process):
 
     def run(self):
         while True:
-            with open(METRIC_FILE) as f:
-                try:
+            try:
+                with open(METRIC_FILE) as f:
                     count = f.read()
-                except Exception as e:
-                    print(e)
+            except Exception as e:
+                print(e)
             send_count(int(count), self.cfg)
             sleep(1)
