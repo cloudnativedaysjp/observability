@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+METRIC_FILE = "./metric"
+
 
 @dataclass
 class PeopleCounterConfig:
