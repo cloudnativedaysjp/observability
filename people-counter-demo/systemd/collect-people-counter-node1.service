@@ -1,0 +1,16 @@
+[Unit]
+Description=Collect people count
+After=network.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+Environment=DISPLAY=:0.0
+WorkingDirectory=/home/ubuntu/observability/people-counter-demo
+ExecStart=/home/ubuntu/.asdf/shims/python3 /home/ubuntu/observability/people-counter-demo/main.py collect_people_count --period_seconds=5
+Restart=on-failure
+StartLimitBurst=0
+User=ubuntu
+Group=ubuntu
+
+[Install]
+WantedBy=default.target

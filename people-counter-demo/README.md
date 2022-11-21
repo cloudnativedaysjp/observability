@@ -15,23 +15,25 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-Install systemd
+Install systemd(node1)
 ```
-# Edit installation location and other information
-vi systemd/push-people-counter.service
-
-sudo cp systemd/push-people-counter.service /etc/systemd/system/
+sudo cp systemd/push-people-counter-node1.service /etc/systemd/system/push-people-counter.service
+sudo cp systemd/collect-people-counter-node1.service /etc/systemd/system/collect-people-counter.service
 sudo systemctl daemon-reload
 sudo systemctl enable push-people-counter
-sudo systemctl start push-people-counter
-```
-```
-# Edit installation location and other information
-vi systemd/collect-people-counter.service
-
-sudo cp systemd/collect-people-counter.service /etc/systemd/system/
-sudo systemctl daemon-reload
 sudo systemctl enable collect-people-counter
+sudo systemctl start push-people-counter
+sudo systemctl start collect-people-counter
+```
+
+Install systemd(node2)
+```
+sudo cp systemd/push-people-counter-node2.service /etc/systemd/system/push-people-counter.service
+sudo cp systemd/collect-people-counter-node2.service /etc/systemd/system/collect-people-counter.service
+sudo systemctl daemon-reload
+sudo systemctl enable push-people-counter
+sudo systemctl enable collect-people-counter
+sudo systemctl start push-people-counter
 sudo systemctl start collect-people-counter
 ```
 
