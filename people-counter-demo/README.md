@@ -25,6 +25,15 @@ sudo systemctl daemon-reload
 sudo systemctl enable push-people-counter
 sudo systemctl start push-people-counter
 ```
+```
+# Edit installation location and other information
+vi systemd/collect-people-counter.service
+
+sudo cp systemd/collect-people-counter.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable collect-people-counter
+sudo systemctl start collect-people-counter
+```
 
 ## Usage
 
