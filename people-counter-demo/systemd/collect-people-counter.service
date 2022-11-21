@@ -1,11 +1,12 @@
 [Unit]
-Description=Push people count
+Description=Collect people count
 After=network.target
 
 [Service]
 Environment=PYTHONUNBUFFERED=1
+Environment=DISPLAY=:0.0
 WorkingDirectory=/home/cnd/observability/people-counter-demo
-ExecStart=/usr/bin/python3 /home/cnd/observability/people-counter-demo/main.py collect_people_count --push_period_seconds=5
+ExecStart=/usr/bin/python3 /home/cnd/observability/people-counter-demo/main.py collect_people_count --period_seconds=5
 Restart=on-failure
 StartLimitBurst=0
 User=cnd
