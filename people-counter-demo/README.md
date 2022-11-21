@@ -15,18 +15,30 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
+Install systemd
+```
+# Edit installation location and other information
+vi systemd/push-people-counter.service
+
+sudo cp systemd/push-people-counter.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable push-people-counter
+sudo systemctl start push-people-counter
+```
+
 ## Usage
 
 Run
 
 ```
-./main.py people_count [node_name]
+./main.py collect_people_count
+./main.py push_people_count [node_name]
 ```
 
 Help
 
 ```
-./main.py people_count -h
+./main.py push_people_count -h
 ```
 
 ## License

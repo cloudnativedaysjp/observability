@@ -39,7 +39,7 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-Instal systemd
+Install systemd
 ```
 # Edit installation location and other information
 vi co2-sensor.service
