@@ -1,0 +1,22 @@
+FROM python:3.9.15
+
+WORKDIR /app
+
+
+RUN apt-get update -qq \
+  && apt-get install -y libgl1-mesa-glx libglib2.0-0 libsm6 libxrender1 libxext6 \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get clean
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY main.py ./
+COPY src/ ./src/
+
+RUN echo 1 > ./metric
+
+ENV PYTHONUNBUFFERED=1
+
+CMD [ "/app/main.py", "push_people_count", "murata", "--job_name=murata", "--push_gateway_addr=https://pushgateway.dev.cloudnativedays.jp/" ]
