@@ -34,7 +34,7 @@ class MetricExporter:
             try:
                 with open(METRIC_FILE) as f:
                     count = f.read()
+                send_count(int(count), self.cfg)
             except Exception as e:
                 print(e)
-            send_count(int(count), self.cfg)
             sleep(self.cfg.push_period_seconds)
