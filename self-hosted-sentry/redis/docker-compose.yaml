@@ -1,0 +1,41 @@
+x-restart-policy: &restart_policy
+  restart: unless-stopped
+x-healthcheck-defaults: &healthcheck_defaults
+  # Avoid setting the interval too small, as docker uses much more CPU than one would expect.
+  # Related issues:
+  # https://github.com/moby/moby/issues/39102
+  # https://github.com/moby/moby/issues/39388
+  # https://github.com/getsentry/self-hosted/issues/1000
+  interval: "$HEALTHCHECK_INTERVAL"
+  timeout: "$HEALTHCHECK_TIMEOUT"
+  retries: $HEALTHCHECK_RETRIES
+  start_period: 10s
+
+services:
+  redis:
+    image: redis:6.2.12-alpine
+    healthcheck:
+      <<: *healthcheck_defaults
+      test: redis-cli ping
+    <<: *restart_policy
+    environment:
+      TZ: Asia/Tokyo
+    volumes:
+      - redis-data:/data
+    ulimits:
+      nofile:
+        soft: 10032
+        hard: 10032
+    ports:
+      - 6379:6379
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.51.0
+    restart: always
+    environment:
+      REDIS_ADDR: "redis://redis:6379"
+      TZ: Asia/Tokyo
+    ports:
+      - 9121:9121
+
+volumes:
+  redis-data:
