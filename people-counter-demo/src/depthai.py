@@ -42,7 +42,7 @@ class DepthAiPeopleCounter:
         self.pm.setNnManager(self.nm)
         self.pm.addNn(nn)
 
-        self._q = SimpleQueue(self.cfg.push_period_seconds)
+        self._q = SimpleQueue(self.cfg.period_seconds)
 
     def run(self):
         with dai.Device(self.pm.pipeline) as device:
