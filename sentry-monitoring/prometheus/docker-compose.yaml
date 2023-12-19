@@ -4,17 +4,23 @@ x-restart-policy: &restart_policy
     driver: loki
     options:
       loki-url: "https://loki.cloudnativedays.jp/loki/api/v1/push"
+x-healthcheck-defaults: &healthcheck_defaults
+  interval: "$HEALTHCHECK_INTERVAL"
+  timeout: "$HEALTHCHECK_TIMEOUT"
+  retries: $HEALTHCHECK_RETRIES
+  start_period: 10s
 
 services:
   prometheus:
     <<: *restart_policy
     image: prom/prometheus:v2.37.9
-    command: "--config.file=/etc/prometheus/prometheus.yaml --storage.tsdb.retention.size=80GB"
+    command: "--config.file=/etc/prometheus/prometheus.yaml --web.config.file=/etc/prometheus/web.yaml --storage.tsdb.retention.size=80GB"
     healthcheck:
       <<: *healthcheck_defaults
       test: [ "CMD", "wget", "http://localhost:9090" ]
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./config/web.yaml:/etc/prometheus/web.yaml
       - prometheus-data:/etc/prometheus/data/
     ports:
       - 9090:9090
