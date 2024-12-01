@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/getsentry/sentry-go"
-	sentrygin "github.com/getsentry/sentry-go/gin"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/getsentry/sentry-go"
+	sentrygin "github.com/getsentry/sentry-go/gin"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -33,6 +34,11 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "delay",
 		})
+	})
+
+	r.GET("/error", func(c *gin.Context) {
+		defer sentry.Recover()
+		panic("Error Test")
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
